@@ -6,8 +6,8 @@ import datetime
 import pvporcupine
 import pyaudio
 import numpy as np
+import private
 
-# Initialize Text-to-Speech Engine
 engine = pyttsx3.init()
 engine.setProperty('rate', 170)  
 engine.setProperty('volume', 1.0)
@@ -20,18 +20,18 @@ def speak(text):
 def listen():
     """Listen for user command after wake word"""
     recognizer = sr.Recognizer()
-    recognizer.dynamic_energy_threshold = True  # Adaptive noise threshold
+    recognizer.dynamic_energy_threshold = True 
 
     with sr.Microphone() as source:
         print("Listening for command...")
         try:
-            audio = recognizer.listen(source, timeout=5)  # Wait for 5 seconds
+            audio = recognizer.listen(source, timeout=5) 
             command = recognizer.recognize_google(audio).lower()
             print(f"You said: {command}")
             return command
         except sr.WaitTimeoutError:
             print("No command detected. Returning to wake word detection...")
-            return "error1"  # Return empty string to continue waiting
+            return "error1"  
         except sr.UnknownValueError:
             print("Sorry, I couldn't understand.")
             return "error2"
@@ -74,7 +74,7 @@ def execute_command(command):
 def detect_wake_word():
     """Continuously listen for the wake word and respond"""
     porcupine = pvporcupine.create(
-        access_key="/9pM6dZMLerUQj8jKCgNymf0mAfY/fWiUJRYRjScpOoR9E8eWx3HlQ==",
+        access_key=private.access_key,
           keyword_paths=["Hey-Nimbus.ppn"])
     pa = pyaudio.PyAudio()
 
